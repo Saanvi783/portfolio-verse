@@ -11,7 +11,6 @@ export default function HUD({
   cameraCoords 
 }) {
   const [soundEnabled, setSoundEnabled] = useState(false);
-  const [showHelp, setShowHelp] = useState(false);
 
   // Keyboard listener for Escape key to exit galaxy focus
   useEffect(() => {
@@ -121,12 +120,6 @@ export default function HUD({
             )}
           </button>
 
-          <button 
-            className={`hud-btn ${showHelp ? 'active' : ''}`} 
-            onClick={() => { spaceAudio.playClick(); setShowHelp(!showHelp); }}
-          >
-            <HelpCircle size={14} /> Binds
-          </button>
         </div>
       </div>
 
@@ -163,30 +156,6 @@ export default function HUD({
         </div>
       </div>
 
-      {/* 3. Help Overlay Binds Panel */}
-      {showHelp && (
-        <div className="glass-panel hud-interactive controls-help" style={{
-          position: 'absolute',
-          top: '5.5rem',
-          left: '1.5rem',
-          zIndex: 100
-        }}>
-          <h3>Navigation Hotkeys</h3>
-          <p>Rotate Camera <span>Left Mouse Drag</span></p>
-          <p>Pan Camera <span>Right Mouse Drag</span></p>
-          <p>Zoom Orbit <span>Scroll Wheel</span></p>
-          <p>Toggle Binds Menu <span className="key">H</span></p>
-          <hr style={{ borderColor: 'rgba(255,255,255,0.08)', margin: '0.5rem 0' }} />
-          <h3 style={{ color: 'var(--color-projects)' }}>WASD Fly Mode Binds</h3>
-          <p>Translate Forward/Back <span className="key">W</span> / <span className="key">S</span></p>
-          <p>Translate Left/Right <span className="key">A</span> / <span className="key">D</span></p>
-          <p>Elevate Up <span className="key">Q</span> or <span className="key">Space</span></p>
-          <p>Elevate Down <span className="key">E</span></p>
-          <p>Movement Speed-up <span className="key">Shift</span></p>
-          <p>Look Around <span>Hold Left Click & Drag</span></p>
-          <p>Reset Universe Focus <span className="key">ESC</span></p>
-        </div>
-      )}
 
       {/* 4. Bottom Controls / Telemetry */}
       <div className="hud-footer hud-interactive">

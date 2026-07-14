@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Canvas, useThree } from '@react-three/fiber';
+import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { Stars } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import * as THREE from 'three';
@@ -7,6 +7,9 @@ import gsap from 'gsap';
 import Galaxy from './Galaxy';
 import SpaceControls from './SpaceControls';
 import { spaceAudio } from './SpaceAudio';
+import CameraRig from "./CameraRig";
+import ShootingStars from "./ShootingStars";
+import SpaceDust from "./SpaceDust";
 
 // Camera transition controller inside the R3F Context
 function CameraController({ 
@@ -20,51 +23,94 @@ function CameraController({
   const { camera } = useThree();
   const prevSelectedNodeId = useRef(null);
 
-  // 1. Handle Galaxy Selection (Zoom inside Galaxy)
-  useEffect(() => {
-    if (!focusedGalaxyId) return;
+// 1. Handle Galaxy Selection (Cinematic Fly)
+useEffect(() => {
+  if (!focusedGalaxyId) return;
 
-    const targetGalaxy = galaxies.find(g => g.id === focusedGalaxyId);
-    if (!targetGalaxy) return;
+  const targetGalaxy = galaxies.find(g => g.id === focusedGalaxyId);
+  if (!targetGalaxy) return;
 
-    const [gx, gy, gz] = targetGalaxy.coordinates;
+  const [gx, gy, gz] = targetGalaxy.coordinates;
 
-    // Interrupt any active camera tweens
-    gsap.killTweensOf(camera.position);
-    if (orbitRef.current) gsap.killTweensOf(orbitRef.current.target);
+  gsap.killTweensOf(camera.position);
+  if (orbitRef.current) gsap.killTweensOf(orbitRef.current.target);
 
-    setIsAnimating(true);
-    spaceAudio.playWoosh();
+  setIsAnimating(true);
+  spaceAudio.playWoosh();
 
-    const tl = gsap.timeline({
-      onComplete: () => setIsAnimating(false)
-    });
+  // Current position
+  const start = camera.position.clone();
 
-    // Fly camera close to galaxy
-    tl.to(camera.position, {
-      x: gx,
-      y: gy + 12,
-      z: gz + 18,
-      duration: 1.8,
-      ease: 'power2.inOut'
-    }, 0);
+  // Final position
+  const end = new THREE.Vector3(
+    gx,
+    gy + 12,
+    gz + 18
+  );
 
-    // Point controls target directly at galaxy center
-    if (orbitRef.current) {
-      tl.to(orbitRef.current.target, {
-        x: gx,
-        y: gy,
-        z: gz,
-        duration: 1.8,
-        ease: 'power2.inOut',
-        onUpdate: () => orbitRef.current.update()
-      }, 0);
-    }
-    
-    // Clear selected node when changing galaxy focus
-    prevSelectedNodeId.current = null;
+  // Control point (creates curved flight)
+  const control = new THREE.Vector3(
+    (start.x + end.x) / 2,
+    Math.max(start.y, end.y) + 18,
+    (start.z + end.z) / 2
+  );
 
-  }, [focusedGalaxyId, galaxies, orbitRef, setIsAnimating]);
+  const curve = new THREE.QuadraticBezierCurve3(
+    start,
+    control,
+    end
+  );
+
+  const obj = { t: 0 };
+
+  gsap.to(obj, {
+    t: 1,
+    duration: 2.2,
+    ease: "power2.inOut",
+
+    onUpdate: () => {
+
+  const pos = curve.getPoint(obj.t);
+
+  camera.position.copy(pos);
+
+  // Look at destination
+  camera.lookAt(gx, gy, gz);
+
+  // Camera banking
+  camera.rotation.z = THREE.MathUtils.lerp(
+    camera.rotation.z,
+    Math.sin(obj.t * Math.PI) * 0.08,
+    0.08
+  );
+
+  if (orbitRef.current) {
+    orbitRef.current.target.set(gx, gy, gz);
+    orbitRef.current.update();
+  }
+
+},
+
+    onComplete: () => {
+
+  gsap.to(camera.rotation, {
+    z: 0,
+    duration: 0.5,
+    ease: "power2.out"
+  });
+
+  camera.fov = 60;
+  camera.updateProjectionMatrix();
+
+  setIsAnimating(false);
+
+}
+
+});
+
+  prevSelectedNodeId.current = null;
+
+}, [focusedGalaxyId]);
 
   // 2. Handle Universe Reset (Fly out to Overview)
   useEffect(() => {
@@ -75,6 +121,9 @@ function CameraController({
 
     setIsAnimating(true);
     spaceAudio.playWoosh();
+
+    camera.fov = 72;
+    camera.updateProjectionMatrix();
 
     const tl = gsap.timeline({
       onComplete: () => setIsAnimating(false)
@@ -270,8 +319,10 @@ export default function SpaceCanvas({
         factor={7} 
         saturation={0.5} 
         fade 
-        speed={1} 
+        speed={controlMode === "fly" ? 5 : 1} 
       />
+      <SpaceDust />
+      <ShootingStars />
 
       {/* Global Lighting */}
       <ambientLight intensity={0.5} />
@@ -304,6 +355,7 @@ export default function SpaceCanvas({
         mode={controlMode}
         orbitRef={orbitRef}
         isAnimating={isAnimating}
+        galaxies={portfolioData.galaxies}
       />
 
       {/* HUD Telemetry Streamer */}
@@ -311,8 +363,8 @@ export default function SpaceCanvas({
 
       {/* Post Processing Bloom & glow effects */}
       <EffectComposer>
-        <Bloom 
-          intensity={1.2} 
+        <Bloom
+          intensity={controlMode === "fly" ? 2.2 : 1.35}
           luminanceThreshold={0.15} 
           luminanceSmoothing={0.9} 
           height={300} 

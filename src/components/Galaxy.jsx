@@ -1,77 +1,201 @@
-import React, { useRef, useMemo, useState } from 'react';
-import { useFrame } from '@react-three/fiber';
-import { Line, Html } from '@react-three/drei';
-import * as THREE from 'three';
-import Planet from './Planet';
+import React, { useRef, useMemo, useState } from "react";
+import { useFrame } from "@react-three/fiber";
+import { Line, Html } from "@react-three/drei";
+import * as THREE from "three";
+import Planet from "./Planet";
 
-export default function Galaxy({ 
-  galaxyData, 
-  onSelectNode, 
-  selectedNodeId, 
-  focusedGalaxyId, 
-  onFocusGalaxy 
+export default function Galaxy({
+    galaxyData,
+    onSelectNode,
+    selectedNodeId,
+    focusedGalaxyId,
+    onFocusGalaxy
 }) {
-  const groupRef = useRef();
-  const particlesRef = useRef();
-  const [hovered, setHovered] = useState(false);
-  
-  const isFocused = focusedGalaxyId === galaxyData.id;
-  
-  // 1. Generate Spiral Particle Background for the Galaxy
-  const { positions, colors } = useMemo(() => {
-    const count = 1200;
-    const pos = new Float32Array(count * 3);
-    const cols = new Float32Array(count * 3);
-    const baseColor = new THREE.Color(galaxyData.color);
-    
-    for (let i = 0; i < count; i++) {
-      const i3 = i * 3;
-      // 2 spiral arms
-      const arm = i % 2;
-      const angle = (i / count) * Math.PI * 8 + (arm * Math.PI);
-      const radius = Math.pow(Math.random(), 2.0) * 15; // Concentrated in center
-      
-      const thickness = 1.2;
-      const randomX = (Math.random() - 0.5) * thickness;
-      const randomY = (Math.random() - 0.5) * thickness * 0.4; // Flatter galaxy
-      const randomZ = (Math.random() - 0.5) * thickness;
-      
-      pos[i3] = Math.cos(angle) * radius + randomX;
-      pos[i3 + 1] = randomY;
-      pos[i3 + 2] = Math.sin(angle) * radius + randomZ;
-      
-      // Color gradient: hot white core to deep theme color to dark space
-      const mixedColor = new THREE.Color('#ffffff').clone();
-      if (radius < 3) {
-        mixedColor.lerp(baseColor, radius / 3);
-      } else {
-        mixedColor.copy(baseColor).lerp(new THREE.Color('#010108'), (radius - 3) / 12);
-      }
-      
-      cols[i3] = mixedColor.r;
-      cols[i3 + 1] = mixedColor.g;
-      cols[i3 + 2] = mixedColor.b;
-    }
-    return { positions: pos, colors: cols };
-  }, [galaxyData.color]);
-  
-  // Rotate the entire galaxy slowly
-  useFrame((state, delta) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y += 0.04 * delta;
-    }
-    if (particlesRef.current) {
-      // Let the dust rotate slightly faster for dynamic depth
-      particlesRef.current.rotation.y += 0.01 * delta;
-    }
-  });
 
-  const handleGalaxyClick = (e) => {
-    if (!isFocused && onFocusGalaxy) {
-      e.stopPropagation();
-      onFocusGalaxy(galaxyData.id);
-    }
-  };
+    const groupRef = useRef();
+    const particlesRef = useRef();
+    const haloRef = useRef();
+
+    const [hovered, setHovered] = useState(false);
+
+    const isFocused =
+        focusedGalaxyId === galaxyData.id;
+
+    // =====================================================
+    // Procedural Galaxy Generator
+    // =====================================================
+
+    const {
+        positions,
+        colors,
+        sizes
+    } = useMemo(() => {
+
+        const count =
+            galaxyData.id === "projects"
+                 ? 12000
+                 : galaxyData.id === "skills"
+                 ? 9000
+                 : galaxyData.id === "certifications"
+                 ? 7000
+                 : galaxyData.id === "achievements"
+                 ? 6000
+                 : 8000;
+
+        const pos =
+            new Float32Array(count * 3);
+
+        const cols =
+            new Float32Array(count * 3);
+
+        const particleSizes =
+            new Float32Array(count);
+
+        const inside =
+            new THREE.Color("#ffffff");
+
+        const outside =
+            new THREE.Color(galaxyData.color);
+
+        const branches = 5;
+
+        for (let i = 0; i < count; i++) {
+
+            const i3 = i * 3;
+
+            const maxRadius =
+                galaxyData.id === "projects"
+                    ? 18
+                    : galaxyData.id === "skills"
+                    ? 14
+                    : galaxyData.id === "certifications"
+                    ? 16
+                    : galaxyData.id === "achievements"
+                    ? 11
+                    : 13;
+
+            const radius =
+                Math.pow(Math.random(), 3.0) * maxRadius;
+
+            const branch =
+                i % branches;
+
+            const branchAngle =
+                (branch / branches) *
+                Math.PI *
+                2;
+
+            const spin =
+                radius *
+                (
+                    galaxyData.id === "projects"
+                        ? 2.8
+                        : galaxyData.id === "skills"
+                        ? 1.8
+                        : galaxyData.id === "certifications"
+                        ? 2.4
+                        : galaxyData.id === "achievements"
+                        ? 1.2
+                        : 2.0
+                );
+
+            const randomX =
+                Math.pow(Math.random(), 3) *
+                (Math.random() < 0.5 ? -1 : 1) *
+                radius *
+                0.15;
+
+            const randomY =
+                Math.pow(Math.random(), 3) *
+                (Math.random() < 0.5 ? -1 : 1) *
+                radius *
+                0.05;
+
+            const randomZ =
+                Math.pow(Math.random(), 3) *
+                (Math.random() < 0.5 ? -1 : 1) *
+                radius *
+                0.15;
+
+            pos[i3] =
+                Math.cos(branchAngle + spin) *
+                    radius +
+                randomX;
+
+            pos[i3 + 1] = randomY;
+
+            pos[i3 + 2] =
+                Math.sin(branchAngle + spin) *
+                    radius +
+                randomZ;
+
+            const mixed =
+                inside.clone();
+
+            mixed.lerp(
+                outside,
+                Math.min(radius / maxRadius, 1)
+            );
+
+            cols[i3] = mixed.r;
+            cols[i3 + 1] = mixed.g;
+            cols[i3 + 2] = mixed.b;
+
+            particleSizes[i] =
+                Math.random() * 0.08 + 0.03;
+        }
+
+        return {
+            positions: pos,
+            colors: cols,
+            sizes: particleSizes
+        };
+
+    }, [galaxyData.color]);
+
+    // =====================================================
+    // Animation
+    // =====================================================
+
+    useFrame((state, delta) => {
+
+        if (groupRef.current) {
+
+            groupRef.current.rotation.y +=
+                delta * 0.03;
+
+        }
+
+        if (particlesRef.current) {
+
+            particlesRef.current.rotation.y +=
+                delta * 0.08;
+
+            particlesRef.current.rotation.z +=
+                delta * 0.01;
+            
+            particlesRef.current.rotation.x =
+                Math.sin(state.clock.elapsedTime * 0.15) * 0.015;
+
+            particlesRef.current.scale.setScalar(
+                1 + Math.sin(state.clock.elapsedTime * 0.4) * 0.01
+            );
+
+        }
+
+    });
+
+    const handleGalaxyClick = (e) => {
+
+        if (!isFocused && onFocusGalaxy) {
+
+            e.stopPropagation();
+
+            onFocusGalaxy(galaxyData.id);
+
+        }
+
+    };
 
   // 2. Pre-calculate nodes for Skills Constellation
   const skillsNodes = useMemo(() => {
@@ -220,63 +344,132 @@ export default function Galaxy({
       position={galaxyData.coordinates}
       onClick={handleGalaxyClick}
     >
-      {/* Logarithmic Spiral Dust Particles */}
-      <points ref={particlesRef}>
-        <bufferGeometry>
-          <bufferAttribute
+      {/* ====================================================== */}
+{/* PROCEDURAL GALAXY */}
+{/* ====================================================== */}
+
+<points ref={particlesRef}>
+    <bufferGeometry>
+
+        <bufferAttribute
             attach="attributes-position"
             args={[positions, 3]}
-          />
-          <bufferAttribute
+        />
+
+        <bufferAttribute
             attach="attributes-color"
             args={[colors, 3]}
-          />
-        </bufferGeometry>
-        <pointsMaterial
-          size={0.06}
-          vertexColors
-          transparent
-          opacity={0.65}
-          sizeAttenuation
-          depthWrite={false}
-          blending={THREE.AdditiveBlending}
         />
-      </points>
 
-      {/* Floating 3D Title Card when NOT focused on this galaxy */}
-      {!isFocused && (
-        <Html distanceFactor={35} position={[0, 4, 0]} center>
-          <div 
-            onClick={handleGalaxyClick}
-            onPointerOver={() => setHovered(true)}
-            onPointerOut={() => setHovered(false)}
-            style={{
-              color: '#ffffff',
-              background: 'rgba(2, 2, 10, 0.85)',
-              border: `1px solid ${galaxyData.color}`,
-              padding: '6px 14px',
-              borderRadius: '8px',
-              fontSize: '12px',
-              fontWeight: 'bold',
-              fontFamily: 'Share Tech Mono',
-              letterSpacing: '2px',
-              cursor: 'pointer',
-              whiteSpace: 'nowrap',
-              boxShadow: `0 0 15px ${galaxyData.color}`,
-              opacity: hovered ? 1.0 : 0.7,
-              transform: `scale(${hovered ? 1.1 : 1.0})`,
-              transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-            }}
-          >
-            🌌 {galaxyData.name.toUpperCase()}
-          </div>
-        </Html>
-      )}
+    </bufferGeometry>
 
-      {/* Ambient center light for focused galaxy */}
-      {isFocused && (
-        <pointLight color={galaxyData.color} intensity={3} distance={25} decay={1.5} />
-      )}
+    <pointsMaterial
+        size={0.09}
+        vertexColors
+        transparent
+        opacity={0.82}
+        depthWrite={false}
+        blending={THREE.AdditiveBlending}
+        sizeAttenuation
+    />
+
+</points>
+
+
+
+{/* ======================= CORE ======================= */}
+
+<mesh>
+
+    <sphereGeometry args={[1.6, 32, 32]} />
+
+    <meshBasicMaterial color="#ffffff" />
+
+</mesh>
+
+
+<mesh>
+
+    <sphereGeometry args={[2.4, 32, 32]} />
+
+    <meshBasicMaterial
+        color={galaxyData.color}
+        transparent
+        opacity={0.05}
+    />
+
+</mesh>
+
+
+{/* ======================= LIGHT ======================= */}
+
+<pointLight
+    color={galaxyData.color}
+    intensity={4}
+    distance={60}
+    decay={2}
+/>
+
+
+{/* ======================= TITLE ======================= */}
+
+{!isFocused && (
+
+<Html
+    center
+    distanceFactor={35}
+    position={[0,4,0]}
+>
+
+<div
+
+onClick={handleGalaxyClick}
+
+onPointerOver={() => setHovered(true)}
+
+onPointerOut={() => setHovered(false)}
+
+style={{
+
+color:"#fff",
+
+background:"rgba(2,2,15,.75)",
+
+padding:"8px 16px",
+
+borderRadius:"10px",
+
+border:`1px solid ${galaxyData.color}`,
+
+boxShadow:`0 0 30px ${galaxyData.color}`,
+
+fontWeight:"bold",
+
+letterSpacing:"2px",
+
+cursor:"pointer",
+
+transform:hovered
+?"scale(1.1)"
+:"scale(1)",
+
+transition:"all .3s",
+
+opacity:hovered
+?1
+:.8
+
+}}
+
+>
+
+🌌 {galaxyData.name.toUpperCase()}
+
+</div>
+
+</Html>
+
+)}
 
       {/* GALAXY 1: PERSONAL UNIVERSE */}
       {galaxyData.id === 'personal' && galaxyData.stars.map((star) => (
@@ -287,7 +480,7 @@ export default function Galaxy({
           type={star.type}
           subTitle={star.subTitle}
           color={star.color || galaxyData.color}
-          size={star.size}
+          size={star.size || 0.8}
           orbitRadius={star.orbitRadius}
           orbitSpeed={star.orbitSpeed}
           coordinates={star.coordinates}
@@ -401,7 +594,7 @@ export default function Galaxy({
             type={star.type}
             subTitle={star.subTitle}
             color={star.color || galaxyData.color}
-            size={star.size}
+            size={star.size || 0.6}
             coordinates={[x, y, z]}
             details={star.details}
             onSelect={onSelectNode}
