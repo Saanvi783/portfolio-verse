@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Volume2, VolumeX, Eye, Compass, ArrowLeft, HelpCircle, Shield } from 'lucide-react';
+import { Volume2, VolumeX, Eye, Compass, ArrowLeft, HelpCircle, Shield, Move } from 'lucide-react';
 import { spaceAudio } from './SpaceAudio';
 
 export default function HUD({ 
