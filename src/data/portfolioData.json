@@ -1,0 +1,310 @@
+{
+  "galaxies": [
+    {
+      "id": "personal",
+      "name": "Personal Universe",
+      "color": "#64b5f6",
+      "description": "Introduction, Education, and Academic background of Saanvi Dixit.",
+      "coordinates": [0, 0, 0],
+      "stars": [
+        {
+          "id": "core_star",
+          "name": "Saanvi Dixit",
+          "type": "Core Star",
+          "subTitle": "Computer Science Undergraduate",
+          "color": "#ffffff",
+          "size": 2.5,
+          "details": {
+            "Role": "Backend & Full Stack Developer / AI & GenAI Enthusiast",
+            "Current Status": "Pre-final Year Engineering Student",
+            "Short Introduction": "Passionate developer combining deep logical engineering with creative frontend visualizations. Enjoys building highly scalable backends and intelligent agents."
+          }
+        },
+        {
+          "id": "about_planet",
+          "name": "About Planet",
+          "type": "Planet",
+          "subTitle": "Professional Profile",
+          "color": "#64b5f6",
+          "size": 1.6,
+          "orbitRadius": 8,
+          "orbitSpeed": 0.8,
+          "details": {
+            "Professional Bio": "Passionate about building scalable software architectures. Interested in Backend Engineering, Cloud Computing, and Generative AI.",
+            "Technical Focus": "Enjoy creating interactive products combining software engineering and creative design.",
+            "Current Pursuits": "Currently exploring AI, Large Language Models (LLMs), and modern backend services."
+          }
+        },
+        {
+          "id": "education_planet",
+          "name": "Education Planet",
+          "type": "Planet",
+          "subTitle": "Academic Background",
+          "color": "#a1c4fd",
+          "size": 1.4,
+          "orbitRadius": 13,
+          "orbitSpeed": 0.5,
+          "details": {
+            "University": "VIT Bhopal - B.Tech in Computer Science Engineering (2023 - 2027) | Current CGPA: 8.38",
+            "High School (Class XII)": "Mount Carmel College - Score: 80%",
+            "Secondary School (Class X)": "Mount Carmel College - Score: 85%"
+          }
+        },
+        {
+          "id": "academic_moon",
+          "name": "Academic Moon",
+          "type": "Moon",
+          "subTitle": "Core Coursework",
+          "color": "#e0f2fe",
+          "size": 0.8,
+          "orbitRadius": 3,
+          "orbitSpeed": 2.0,
+          "parentStarId": "education_planet",
+          "details": {
+            "Core Subjects": "Data Structures & Algorithms (DSA), Operating Systems (OS), Database Management Systems (DBMS), Computer Networks (CN), Software Engineering (SE)",
+            "Specialized Fields": "Artificial Intelligence (AI), Machine Learning (ML)"
+          }
+        }
+      ]
+    },
+    {
+      "id": "projects",
+      "name": "Projects Galaxy",
+      "color": "#b388ff",
+      "description": "Interactive showcase of built projects as individual solar systems.",
+      "coordinates": [25, 5, -20],
+      "stars": [
+        {
+          "id": "zenith_ai",
+          "name": "Zenith AI",
+          "type": "Solar System Center",
+          "subTitle": "AI Mock Interview Platform",
+          "color": "#ea80fc",
+          "size": 2.0,
+          "details": {
+            "Description": "AI-powered interview preparation platform that conducts mock interviews, analyzes resumes, evaluates answers using LLMs, performs speech analysis, body language tracking, and personalized interview preparation.",
+            "Tech Stack": "React, FastAPI, LLMs, RAG, Computer Vision, Speech Processing"
+          }
+        },
+        {
+          "id": "starforge",
+          "name": "StarForge",
+          "type": "Solar System Center",
+          "subTitle": "3D GitHub Visualizer",
+          "color": "#82b1ff",
+          "size": 1.8,
+          "details": {
+            "Description": "Interactive GitHub repository visualizer that transforms repositories into stars inside a procedurally generated galaxy.",
+            "Tech Stack": "Three.js, React, GitHub API, WebGL, React Three Fiber"
+          }
+        },
+        {
+          "id": "freshtrack",
+          "name": "FreshTrack",
+          "type": "Solar System Center",
+          "subTitle": "Grocery Expiration Tracker",
+          "color": "#b9f6ca",
+          "size": 1.5,
+          "details": {
+            "Description": "Minimal grocery expiration tracking application designed to reduce food waste and monitor monthly savings through smart expiry analysis.",
+            "Tech Stack": "React, Vite, TypeScript, Tailwind CSS, LocalStorage"
+          }
+        },
+        {
+          "id": "spidey_sense",
+          "name": "Spidey Sense Security",
+          "type": "Solar System Center",
+          "subTitle": "Chrome Extension for Phishing Detection",
+          "color": "#ff8a80",
+          "size": 1.4,
+          "details": {
+            "Description": "Chrome extension that detects phishing websites and suspicious URLs, classifies their risk level, and warns users before navigation.",
+            "Tech Stack": "JavaScript, Chrome Extensions, HTML, CSS"
+          }
+        },
+        {
+          "id": "super_mario",
+          "name": "Super Mario Game",
+          "type": "Solar System Center",
+          "subTitle": "Retro Pixel Platformer",
+          "color": "#ffd600",
+          "size": 1.4,
+          "details": {
+            "Description": "2D Mario-inspired platformer featuring multiple levels, game menus, sound effects, HUD, pause/restart functionality, and complete gameplay mechanics.",
+            "Tech Stack": "Python, Pygame"
+          }
+        },
+        {
+          "id": "resume_screener",
+          "name": "Resume Screener",
+          "type": "Solar System Center",
+          "subTitle": "AI Resume Classification Assistant",
+          "color": "#cfd8dc",
+          "size": 1.5,
+          "details": {
+            "Description": "AI-powered resume classification tool that analyzes resume content and categorizes candidates into appropriate job roles using IBM watsonx foundation models.",
+            "Tech Stack": "IBM watsonx, Prompt Engineering, Foundation Models, PDF & CSV Processing"
+          }
+        },
+        {
+          "id": "divyastra",
+          "name": "Divyastra",
+          "type": "Solar System Center",
+          "subTitle": "IoT Traffic Management",
+          "color": "#ffab40",
+          "size": 1.3,
+          "details": {
+            "Description": "IoT-based smart traffic management system that prioritizes emergency vehicles using Arduino and sensor-based detection to intelligently control traffic signals.",
+            "Tech Stack": "Arduino, IoT, Embedded Systems, Sensors"
+          }
+        },
+        {
+          "id": "brahmastra",
+          "name": "Brahmastra",
+          "type": "Solar System Center",
+          "subTitle": "Stock Prediction System",
+          "color": "#18ffff",
+          "size": 1.3,
+          "details": {
+            "Description": "Stock prediction system using deep learning and LSTM networks trained on historical stock market data with preprocessing pipelines for improved prediction accuracy.",
+            "Tech Stack": "Python, TensorFlow, LSTM, Deep Learning"
+          }
+        }
+      ]
+    },
+    {
+      "id": "skills",
+      "name": "Skills Galaxy",
+      "color": "#00e676",
+      "description": "Skills grouped into custom, glowing 3D constellations.",
+      "coordinates": [-25, -5, -15],
+      "constellations": [
+        {
+          "category": "Languages",
+          "color": "#82b1ff",
+          "items": ["Java", "Python", "JavaScript", "C++", "HTML", "CSS", "TypeScript"]
+        },
+        {
+          "category": "Backend",
+          "color": "#ffab40",
+          "items": ["Spring Boot", "FastAPI", "Node.js", "Express.js", "REST APIs", "Swagger", "API Design", "Microservices"]
+        },
+        {
+          "category": "Frontend",
+          "color": "#ea80fc",
+          "items": ["React", "Vite", "Tailwind CSS", "Three.js", "React Three Fiber"]
+        },
+        {
+          "category": "AI & GenAI",
+          "color": "#b388ff",
+          "items": ["Prompt Engineering", "LLMs", "RAG", "IBM Watsonx", "OpenRouter", "Gemini API", "GitHub API", "Computer Vision", "Speech Analysis"]
+        },
+        {
+          "category": "Cloud & DB",
+          "color": "#b9f6ca",
+          "items": ["AWS EC2", "AWS S3", "Compute", "Storage", "Networking", "Security", "Load Balancing", "Cloud Fundamentals", "MongoDB Atlas"]
+        },
+        {
+          "category": "Tools & APIs",
+          "color": "#ffe57f",
+          "items": ["Git", "GitHub", "VS Code", "Postman", "Arduino Simulation", "IoT Prototyping", "REST APIs", "JSON"]
+        }
+      ]
+    },
+    {
+      "id": "certifications",
+      "name": "Certifications Galaxy",
+      "color": "#00e5ff",
+      "description": "Crystal planets floating in a blue nebula representing verified achievements.",
+      "coordinates": [-15, 15, 20],
+      "stars": [
+        { "id": "cert_google_it", "name": "Google IT Support", "issuer": "Google", "date": "2024", "skills": "IT Troubleshooting, Network Protocols, Operating Systems, Security" },
+        { "id": "cert_sc900", "name": "Microsoft SC-900", "issuer": "Microsoft", "date": "2024", "skills": "Security, Compliance, and Identity Fundamentals" },
+        { "id": "cert_ibm_watsonx", "name": "IBM GenAI Watsonx", "issuer": "IBM", "date": "2024", "skills": "Generative AI, Watsonx.ai, Foundation Models, Prompt Tuning" },
+        { "id": "cert_nptel_ml", "name": "NPTEL Machine Learning", "issuer": "NPTEL", "date": "2024", "skills": "Supervised & Unsupervised Learning, Regression, Neural Networks" },
+        { "id": "cert_nptel_mktg", "name": "NPTEL Marketing Analytics", "issuer": "NPTEL", "date": "2024", "skills": "Data Analysis, Excel, Market Segmentation, Forecasting" },
+        { "id": "cert_aws_comp", "name": "AWS Compute", "issuer": "AWS", "date": "2024", "skills": "EC2, Lambda, ECS, Auto-scaling, Serverless Computing" },
+        { "id": "cert_aws_stor", "name": "AWS Storage", "issuer": "AWS", "date": "2024", "skills": "S3, EBS, EFS, Storage Gateway, Backup Strategies" },
+        { "id": "cert_aws_net", "name": "AWS Networking", "issuer": "AWS", "date": "2024", "skills": "VPC, Route53, CloudFront, Load Balancers, VPN, Direct Connect" },
+        { "id": "cert_aws_sec", "name": "AWS Security", "issuer": "AWS", "date": "2024", "skills": "IAM, KMS, WAF, Shield, Security Groups, Compliance" },
+        { "id": "cert_aws_db", "name": "AWS Databases", "issuer": "AWS", "date": "2024", "skills": "RDS, DynamoDB, Redshift, ElastiCache, Aurora" },
+        { "id": "cert_graph_theory", "name": "Graph Theory Camp", "issuer": "Programming Camp", "date": "2023", "skills": "Graph Algorithms, BFS/DFS, Shortest Paths, Trees" },
+        { "id": "cert_google_ads", "name": "Google Ads Beginners", "issuer": "Google", "date": "2023", "skills": "Digital Marketing, Search Campaigns, SEO Foundations" },
+        { "id": "cert_matlab", "name": "MATLAB Onramp", "issuer": "MathWorks", "date": "2023", "skills": "MATLAB Syntax, Data Visualization, Matrix Operations" },
+        { "id": "cert_ml_onramp", "name": "ML Onramp", "issuer": "MathWorks", "date": "2023", "skills": "Machine Learning Workflows, Feature Selection, Classification" },
+        { "id": "cert_java", "name": "Programming in Java", "issuer": "NPTEL", "date": "2023", "skills": "OOP, Multithreading, Exception Handling, Java Collections" },
+        { "id": "cert_python", "name": "Python Essentials", "issuer": "Cisco", "date": "2023", "skills": "Python Basics, Control Structures, File I/O, Libraries" },
+        { "id": "cert_ai_ml_fund", "name": "Fundamentals of AI & ML", "issuer": "VIT Bhopal", "date": "2023", "skills": "Core Algorithms, Neural Net Baselines, Optimization" },
+        { "id": "cert_grid6", "name": "Flipkart GRID 6.0", "issuer": "Flipkart", "date": "2024", "skills": "Robotics & Smart Logistics Hackathon Participation" },
+        { "id": "cert_image_cap", "name": "Create Image Captioning Models", "issuer": "Coursera", "date": "2024", "skills": "Deep Learning, CNNs, RNNs, Image Processing" },
+        { "id": "prog_jpmc", "name": "JPMorgan Chase Software Eng", "issuer": "Forage (Virtual Experience)", "date": "2024", "skills": "Interface with Financial Feeds, Perspective Data Grid, React" },
+        { "id": "prog_aws_sa", "name": "AWS Solutions Architecture", "issuer": "Forage (Virtual Experience)", "date": "2024", "skills": "Architecting highly available web apps, Designing storage and CDN layers" }
+      ]
+    },
+    {
+      "id": "achievements",
+      "name": "Achievements Galaxy",
+      "color": "#ffd700",
+      "description": "Golden stars representing major career, leadership, and athletic milestones.",
+      "coordinates": [15, -15, 25],
+      "stars": [
+        {
+          "id": "ach_leadership",
+          "name": "Leadership",
+          "type": "Achievement Star",
+          "subTitle": "Technical Lead — MRC Club",
+          "color": "#ffd700",
+          "details": {
+            "Role & Impact": "Led technical initiatives and coordinated student projects. Mentored juniors during technical activities.",
+            "Events Coordinate": "Assisted in organizing club hackathons and collaborative development sessions."
+          }
+        },
+        {
+          "id": "ach_academic",
+          "name": "Academic Excellence",
+          "type": "Achievement Star",
+          "subTitle": "VIT Bhopal & School Honors",
+          "color": "#fff9c4",
+          "details": {
+            "Academic Performance": "Maintained strong academic performance throughout engineering (8.38 CGPA).",
+            "Soft Skills": "Frequently led team presentations, group discussions, and collaborative project leadership."
+          }
+        },
+        {
+          "id": "ach_technical",
+          "name": "Technical Achievements",
+          "type": "Achievement Star",
+          "subTitle": "Hackathons & Dev Work",
+          "color": "#ffeb3b",
+          "details": {
+            "Hackathons": "Finalist in multiple hackathons.",
+            "Development": "Developed multiple full-stack and AI-based applications (Zenith AI, StarForge).",
+            "Learning": "Continuously exploring emerging technologies including Generative AI and 3D graphics."
+          }
+        },
+        {
+          "id": "ach_sports",
+          "name": "Sports Achievements",
+          "type": "Achievement Star",
+          "subTitle": "Badminton & Chess",
+          "color": "#ffee58",
+          "details": {
+            "Badminton": "Active badminton player representing schools and college clubs.",
+            "Chess": "School-level chess participant, competitive logic enthusiast."
+          }
+        },
+        {
+          "id": "ach_cultural",
+          "name": "Cultural Milestones",
+          "type": "Achievement Star",
+          "subTitle": "Music & Literature",
+          "color": "#fff59d",
+          "details": {
+            "Music": "Music Choir Lead during school, coordinating vocal ensembles.",
+            "Literary": "SpellBee Finalist at inter-school level. Active participant in poetry and creative writing competitions."
+          }
+        }
+      ]
+    }
+  ]
+}
